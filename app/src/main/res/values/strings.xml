@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">baking-app</string>
+    <string name="action_settings">Settings</string>
+    <string name="servings">Servings: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Servings_title">Servings</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="network_error">Network Error</string>
+    <string name="no_network">Wait for network....</string>
+    <string name="back_btn_dis">back btn</string>
+    <string name="next_btn_dis">next btn</string>
+    <string name="wait_for_recipe">wait for recipe</string>
+</resources>

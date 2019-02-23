@@ -27,14 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DescriptionFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DescriptionFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class DescriptionFragment extends Fragment {
 
     private static final String LOG_TAG = DescriptionFragment.class.getSimpleName();
@@ -51,14 +44,7 @@ public class DescriptionFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DescriptionFragment.
-     */
+
     public static DescriptionFragment newInstance(String param1, String param2) {
         DescriptionFragment fragment = new DescriptionFragment();
         Bundle args = new Bundle();

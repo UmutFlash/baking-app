@@ -72,23 +72,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         }
     }
 
-    /**
-     * Interface for when recipe in recycler view is clicked
-     */
+
     public interface RecipeClickListener {
 
-        /**
-         * Method for when recipe is clicked
-         *
-         * @param view     View of ViewHolder
-         * @param position Position of item clicked in recycler view
-         */
         void onRecipeClicked(View view, int position);
     }
 
-    /**
-     * Custom click listener
-     */
     public void setOnItemClickListener(RecipeClickListener listener) {
         this.listener = listener;
     }

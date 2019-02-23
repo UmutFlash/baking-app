@@ -28,11 +28,8 @@ public class MasterActivity extends AppCompatActivity implements DescriptionFrag
     private int mStepsIndex = 0;
     private boolean isTablet = false;
 
-    //private int mCurrentPosition;
-
     private DescriptionFragment mDescriptionFragment;
     private InstructionsFragment mInstructionsFragment;
-    private String mCurrentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

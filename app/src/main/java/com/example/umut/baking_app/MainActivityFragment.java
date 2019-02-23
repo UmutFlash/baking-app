@@ -33,12 +33,6 @@ public class MainActivityFragment extends Fragment implements FetchRecipe.Callba
     private RecyclerView.LayoutManager mLayoutManager;
     @BindView(R.id.recipe_recyclerView) RecyclerView mRecyclerView;
 
-    public static final String POSITION = "position";
-    public static final String RECIPE_NAME = "recipe_name";
-    public static final String RECIPE_ID = "recipe_Id";
-    public static final String SERVING_SIZE = "serving_size";
-    public static final String INGREDIENTS = "ingredients";
-    public static final String STEPS = "steps";
     public static final String RECIPE_OBJECT = "recipe_object";
 
     public MainActivityFragment() {

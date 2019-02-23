@@ -39,30 +39,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link InstructionsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link InstructionsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class InstructionsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
+public class InstructionsFragment extends Fragment {
     private static final String STEPS = "stepList";
     private static final String POSITION = "position";
     private static final String FULLSCREEN = "fullscreen";
     private static final String NULL = "null";
     private static final String PLAY_POSITION = "play_position";
     private static final String PLAY_STATE = "play_state";
-
-    private long play_position = 0;
-    private String mParam1;
-    private String mParam2;
 
     private SimpleExoPlayer mExoPlayer;
 
@@ -81,10 +65,6 @@ public class InstructionsFragment extends Fragment {
 
     private long mPlayerPosition;
     private boolean mPlayState;
-    private boolean fullScreen = false;
-    private boolean isNull;
-    private boolean playerStopped = false;
-    private long playerStopPosition;
     private Unbinder mUnbinder;
 
 
@@ -96,17 +76,6 @@ public class InstructionsFragment extends Fragment {
     public static InstructionsFragment newInstance(ArrayList<Step> sList, int position) {
         InstructionsFragment fragment = new InstructionsFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(STEPS, sList);
-        args.putInt(POSITION, position);
-
-        // Set true if nothing was selected,
-        // needed in case in tablet mode
-        if (position == -1) {
-            args.putBoolean(NULL, true);
-        } else {
-            args.putBoolean(NULL, false);
-        }
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -114,11 +83,6 @@ public class InstructionsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mStepList = getArguments().getParcelableArrayList(STEPS);
-            mStepPosition = getArguments().getInt(POSITION);
-
-        }
     }
 
     @Override
@@ -139,8 +103,6 @@ public class InstructionsFragment extends Fragment {
                     mStepPosition++;
                     updateView();
                 }
-
-
             }
         });
         mBackBtn.setOnClickListener(new View.OnClickListener() {
@@ -210,8 +172,8 @@ public class InstructionsFragment extends Fragment {
     public void onStop() {
         super.onStop();
         if (mExoPlayer != null) {
-            playerStopPosition = mExoPlayer.getCurrentPosition();
-            playerStopped = true;
+            mPlayerPosition = mExoPlayer.getCurrentPosition();
+            mPlayState = true;
             releaseExoPlayer();
         }
     }

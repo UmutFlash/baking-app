@@ -47,9 +47,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         String name = recipeList[position].getmName();
-        //String recipeImage = recipeList[position].getmId();
         int servings = recipeList[position].getmStepList().size();
-        //int recipeId = recipeList[position].getmId();
 
         holder.mName.setText(name);
         holder.mServings.setText(context.getString(R.string.servings, servings));
@@ -58,14 +56,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 .placeholder(R.drawable.ic_cake)
                 .error(R.drawable.ic_cake).into(holder.mCakeImage);
 
-
-    /*
-        if (Utility.recipeExist(context, recipeId)) {
-            holder.frameLayout.setVisibility(View.VISIBLE);
-        } else {
-            holder.frameLayout.setVisibility(View.INVISIBLE);
-        }
-         */
     }
 
     @Override
@@ -78,7 +68,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         public View mView;
         @BindView(R.id.tv_recipe_name) TextView mName;
         @BindView(R.id.tv_recipe_servings) TextView mServings;
-        //@BindView(R.id.fl_recipe) FrameLayout mFrameLayout;
         @BindView(R.id.iv_recipe)
         ImageView mCakeImage;
 

@@ -41,27 +41,14 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         String name = stepList.get(position).getmShortDescription();
-        //String recipeImage = recipeList[position].getmId();
-        //int servings = stepList[position].getmStepList().size();
-        //int recipeId = recipeList[position].getmId();
 
         holder.mName.setText(name);
-        //holder.mServings.setText(context.getString(R.string.servings, servings));
-
+     
         Picasso.get()
                 .load(Uri.parse(stepList.get(position).getmThumbnailURL()))
                 .placeholder(R.drawable.ic_leanpub)
                 .error(R.drawable.ic_leanpub)
                 .into(holder.mImageView);
-
-        /*
-
-        if (Utility.recipeExist(context, recipeId)) {
-            holder.frameLayout.setVisibility(View.VISIBLE);
-        } else {
-            holder.frameLayout.setVisibility(View.INVISIBLE);
-        }
-         */
     }
 
     @Override
@@ -89,23 +76,11 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.ViewHolder> {
         }
     }
 
-    /**
-     * Interface for when recipe in recycler view is clicked
-     */
     public interface RecipeStepClickListener {
 
-        /**
-         * Method for when recipe is clicked
-         *
-         * @param view     View of ViewHolder
-         * @param position Position of item clicked in recycler view
-         */
         void onRecipeStepClicked(View view, int position);
     }
 
-    /**
-     * Custom click listener
-     */
     public void setOnItemClickListener(RecipeStepClickListener listener) {
         this.listener = listener;
     }

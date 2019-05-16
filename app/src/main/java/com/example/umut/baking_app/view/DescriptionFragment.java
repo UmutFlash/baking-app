@@ -38,8 +38,6 @@ public class DescriptionFragment extends Fragment {
     RecyclerView.LayoutManager mStepLayoutManager;
     OnFragmentInteractionListener mListener;
 
-    //private OnFragmentInteractionListener mListener;
-
     public DescriptionFragment() {
         // Required empty public constructor
     }
@@ -72,8 +70,6 @@ public class DescriptionFragment extends Fragment {
 
         ArrayList<Ingredient> ingredients = ((MasterActivity) getActivity()).getmIngredientList();
         ((MasterActivity) getActivity()).getmRecipeStepList();
-
-        String recipeName = ((MasterActivity) getActivity()).getmRecipeName();
 
         mIngredients.setText(getIngredientsText(ingredients));
 
@@ -108,9 +104,6 @@ public class DescriptionFragment extends Fragment {
         return ingredientsText;
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
         }
@@ -126,7 +119,6 @@ public class DescriptionFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
 
     public OnFragmentInteractionListener getmListener() {
         return mListener;

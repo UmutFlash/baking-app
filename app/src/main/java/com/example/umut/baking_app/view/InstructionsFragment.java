@@ -44,7 +44,6 @@ public class InstructionsFragment extends Fragment {
     private static final String STEPS = "stepList";
     private static final String POSITION = "position";
     private static final String FULLSCREEN = "fullscreen";
-    private static final String NULL = "null";
     private static final String PLAY_POSITION = "play_position";
     private static final String PLAY_STATE = "play_state";
 
@@ -88,10 +87,9 @@ public class InstructionsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View rootView = inflater.inflate(R.layout.fragment_instructions, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
-
 
         mStepList = ((MasterActivity) getActivity()).getmRecipeStepList();
         mStep = mStepList.get(((MasterActivity) getActivity()).getmStepsIndex());
@@ -101,7 +99,7 @@ public class InstructionsFragment extends Fragment {
             public void onClick(View view) {
                 if (mStepPosition < mStepList.size() - 1) {
                     mStepPosition++;
-                    updateView();
+                    onPositionChanged(mStepPosition);
                 }
             }
         });
@@ -110,21 +108,13 @@ public class InstructionsFragment extends Fragment {
             public void onClick(View view) {
                 if (mStepPosition > 0) {
                     mStepPosition--;
-                    updateView();
+                    onPositionChanged(mStepPosition);
                 }
             }
         });
+
         mInstruction.setText(mStep.getmDescription());
-        initializePlayer(mStep.getmVideoURL());
         return rootView;
-    }
-
-    private void updateView() {
-        resetPlayerState();
-        mInstruction.setText(mStepList.get(mStepPosition).getmDescription());
-        releaseExoPlayer();
-        initializePlayer(mStepList.get(mStepPosition).getmVideoURL());
-
     }
 
     @Override
@@ -133,7 +123,7 @@ public class InstructionsFragment extends Fragment {
         outState.putInt(POSITION, mStepPosition);
         outState.putBoolean(FULLSCREEN, isFullScreen());
         if (mExoPlayer != null) {
-            outState.putLong(PLAY_STATE, mExoPlayer.getCurrentPosition());
+            outState.putLong(PLAY_POSITION, mExoPlayer.getCurrentPosition());
             outState.putBoolean(PLAY_STATE, mExoPlayer.getPlayWhenReady());
         }
     }
@@ -146,7 +136,7 @@ public class InstructionsFragment extends Fragment {
             mPlayerPosition = savedInstanceState.getLong(PLAY_POSITION);
             mPlayState = savedInstanceState.
                     getBoolean(PLAY_STATE);
-            onPositionChanged(mStepPosition);
+           updateView();
         }
     }
 
@@ -154,6 +144,7 @@ public class InstructionsFragment extends Fragment {
         Configuration newConfig = new Configuration();
         return newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
+
 
     @Override
     public void onDetach() {
@@ -163,9 +154,7 @@ public class InstructionsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (mExoPlayer == null) {
             initializePlayer(mStepList.get(mStepPosition).getmVideoURL());
-        }
     }
 
     @Override
@@ -173,11 +162,17 @@ public class InstructionsFragment extends Fragment {
         super.onStop();
         if (mExoPlayer != null) {
             mPlayerPosition = mExoPlayer.getCurrentPosition();
-            mPlayState = true;
+            mPlayState = mExoPlayer.getPlayWhenReady();
             releaseExoPlayer();
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mExoPlayer != null) {
+        } mExoPlayer = null;
+    }
 
     @Override
     public void onDestroyView() {
@@ -187,9 +182,17 @@ public class InstructionsFragment extends Fragment {
     }
 
     public void onPositionChanged(int position) {
-        mStepPosition = position;
+        resetPlayerState();
+        mExoPlayer = null;
         updateView();
     }
+
+    private void updateView() {
+        mInstruction.setText(mStepList.get(mStepPosition).getmDescription());
+        releaseExoPlayer();
+        initializePlayer(mStepList.get(mStepPosition).getmVideoURL());
+    }
+
 
     public void setPosition(int position) {
         mStepPosition = position;
@@ -214,6 +217,11 @@ public class InstructionsFragment extends Fragment {
                 MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
                         .createMediaSource(videoUri);
                 mExoPlayer.prepare(mediaSource);
+                mExoPlayer.setPlayWhenReady(mPlayState);
+                if (mPlayerPosition != 0 ){
+                    mExoPlayer.seekTo(mPlayerPosition);
+
+                }
             }
         } else {
             AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
@@ -226,9 +234,7 @@ public class InstructionsFragment extends Fragment {
 
     public void releaseExoPlayer() {
         if (mExoPlayer != null) {
-            mExoPlayer.stop();
             mExoPlayer.release();
-            mExoPlayer = null;
         }
     }
 

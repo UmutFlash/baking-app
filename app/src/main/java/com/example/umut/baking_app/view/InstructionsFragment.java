@@ -67,11 +67,6 @@ public class InstructionsFragment extends Fragment {
     private Unbinder mUnbinder;
 
 
-    public InstructionsFragment() {
-        // Required empty public constructor
-    }
-
-
     public static InstructionsFragment newInstance(ArrayList<Step> sList, int position) {
         InstructionsFragment fragment = new InstructionsFragment();
         Bundle args = new Bundle();
@@ -147,20 +142,35 @@ public class InstructionsFragment extends Fragment {
 
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initializePlayer(mStepList.get(mStepPosition).getmVideoURL());
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if ((Util.SDK_INT <= 23 || mExoPlayer == null)) {
             initializePlayer(mStepList.get(mStepPosition).getmVideoURL());
+        }
+    }
+
+
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            mPlayerPosition = mExoPlayer.getCurrentPosition();
+            mPlayState = mExoPlayer.getPlayWhenReady();
+            releaseExoPlayer();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (mExoPlayer != null) {
+        if (Util.SDK_INT > 23) {
             mPlayerPosition = mExoPlayer.getCurrentPosition();
             mPlayState = mExoPlayer.getPlayWhenReady();
             releaseExoPlayer();
@@ -171,7 +181,8 @@ public class InstructionsFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         if (mExoPlayer != null) {
-        } mExoPlayer = null;
+            mExoPlayer = null;
+        }
     }
 
     @Override
@@ -237,6 +248,7 @@ public class InstructionsFragment extends Fragment {
             mExoPlayer.release();
         }
     }
+
 
     public void resetPlayerState() {
         mPlayerPosition = 0;
